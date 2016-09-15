@@ -23,36 +23,43 @@ public class App
         final Logger logger = Logger.getLogger(App.class);
         BasicConfigurator.configure();
 
-        //logs a debug message
-        if(logger.isDebugEnabled()){
-            logger.debug("This is a test debug message.");
-        }
-
-        //logs an error message with parameter
-        logger.error("This is a test error message.");
+//        if(logger.isDebugEnabled()){
+//            logger.debug("This is a test debug message.");
+//        }
+//
+        // logger.error("This is a test error message.");
 
 
         // Blow up if the wrong number of command line arguments are received.
         if(args.length != 2) {
-            throw new IllegalArgumentException(args.length + " is an invalid number of arguments. Must be 2.");
+            String errorMessage = args.length + " is an invalid number of arguments. Must be 2.";
+            logger.error(errorMessage);
+            throw new IllegalArgumentException(errorMessage);
         }
 
         File inputDirectory = new File(args[0]);
         File outputDirectory = new File(args[1]);
 
+        // Blow up if input directory doesn't exist.
         if(!verifyInputDirectory(inputDirectory)) {
-            throw new IllegalArgumentException("Unable to access directory " + inputDirectory +
-                    ".\nPlease make sure the input directory is the first argument, and is wrapped in double quotes.");
+            String errorMessage = "Unable to access directory " + inputDirectory +
+                    ".\nPlease make sure the input directory is the first argument, and is wrapped in double quotes.";
+            logger.error(errorMessage);
+            throw new IllegalArgumentException(errorMessage);
         }
 
+        // Blow up if any problems occur while creating a new output directory or cleaning up an old one.
         String outputDirectoryCreationError = generateOutputDirectoryCreationError(outputDirectory);
         if(!outputDirectoryCreationError.equals("")) {
-            throw new RuntimeException("Unable to create output directory " + outputDirectory + ". Error message: " +
-                    outputDirectoryCreationError);
+            String errorMessage = "Unable to create output directory " + outputDirectory + ". Error message: " +
+                    outputDirectoryCreationError;
+            logger.error(errorMessage);
+            throw new RuntimeException(errorMessage);
         }
 
         // Hand off the rest of the work to the Widget object.
         Widget widget = new Widget(inputDirectory, outputDirectory);
+        widget.readFilesIntoMemory();
 
     }
 
@@ -73,11 +80,11 @@ public class App
      * @return The error string generated, or "" if no error generated.
      */
     private static String generateOutputDirectoryCreationError(File outputDirectory) {
-        String error = "";
+        String errorMessage = "";
         // Create a new output directory if one does not already exist.
         if (!outputDirectory.isDirectory()) {
             if(!outputDirectory.mkdir()) {
-                error = "Unable to make new output directory" + outputDirectory;
+                errorMessage = "Unable to make new output directory" + outputDirectory;
             }
         } else {
             // Clean up and reuse existing output directory.
@@ -85,15 +92,15 @@ public class App
                 try{
                     for(File f : outputDirectory.listFiles()) {
                         if (!f.delete()) {
-                            error = "Unable to delete existing file(s) in directory" + outputDirectory;
+                            errorMessage = "Unable to delete existing file(s) in directory" + outputDirectory;
                         }
                     }
                 } catch (NullPointerException e) {
-                    error = "Encountered NullPointerException while attempting to delete existing files in directory" +
+                    errorMessage = "Encountered NullPointerException while attempting to delete existing files in directory" +
                             outputDirectory;
                 }
             }
         }
-        return error;
+        return errorMessage;
     }
 }

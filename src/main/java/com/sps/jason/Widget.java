@@ -1,5 +1,8 @@
 package com.sps.jason;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+
 import java.io.File;
 
 /**
@@ -11,6 +14,8 @@ public class Widget {
 
     private String inputDirectory;
     private String outputDirectory;
+    // private Logger logger = null;
+    final Logger logger = Logger.getLogger(Widget.class);
 
     /**
      * Public constructor.
@@ -19,27 +24,27 @@ public class Widget {
      * @param outputDirectory The output directory to save modified files.
      */
     public Widget(File inputDirectory, File outputDirectory) {
-        System.out.println("oh hai from the Widget constructor!");
-        System.out.println("input directory: " + inputDirectory + ", output directory: " + outputDirectory);
-
-
+        logger.info("oh hai from the Widget constructor!");
+        logger.info("input directory: " + inputDirectory + ", output directory: " + outputDirectory);
+        // final Logger logger = Logger.getLogger(Widget.class);
+        // Set up the logger.
+        // BasicConfigurator.configure();
     }
 
     /**
      * Open files in the input directory and read them into memory.
-     *
-     * @return true if successful, false otherwise.
      */
-    public boolean readFilesIntoMemory() {
-        return true;
+    public void readFilesIntoMemory() {
+        // logger.info("test info message from readFilesIntoMemory");
+        // logger.error("This is a test error message from readFilesIntoMemory");
     }
 
     /**
      * Parse an individual file, swap out strings per the system requirements, and save to output directory.
      *
-     * @param fileToModify The file to modify.
+     * @param fileToModifyAndSave The file to modify.
      */
-    public void modifyAndSaveFile(File fileToModify) {
+    public void modifyAndSaveFile(File fileToModifyAndSave) {
 
     }
 
