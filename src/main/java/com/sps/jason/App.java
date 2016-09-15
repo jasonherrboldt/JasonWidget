@@ -7,7 +7,7 @@ import java.io.File;
  *
  * Created by Jason Herrboldt (intothefuture@gmail.com) on 9/15/16.
  */
-public class App 
+public class App
 {
     /**
      * Main engine method.
@@ -25,16 +25,42 @@ public class App
         File inputDirectory = new File(args[0]);
         File outputDirectory = new File(args[1]);
 
-        // Blow up if input directory does not exist.
-        if (!inputDirectory.isDirectory()) {
+        if(!verifyInputDirectory(inputDirectory)) {
             throw new IllegalArgumentException("Unable to access directory " + inputDirectory +
                     ".\nPlease make sure the input directory is the first argument, and is wrapped in double quotes.");
         }
 
-        // Create a new output directory if one does not already exist. Blow up if output directory can't be created.
+        if(!verifyOutputDirectory(outputDirectory)) {
+            throw new RuntimeException("Unable to create output directory " + outputDirectory);
+        }
+
+        // Hand off the rest of the work to the Widget object.
+        Widget widget = new Widget(inputDirectory, outputDirectory);
+
+    }
+
+    /**
+     * Verify the input diretory.
+     *
+     * @param inputDirectory The input directory to verify.
+     * @return true if verified, false otherwise.
+     */
+    private static boolean verifyInputDirectory(File inputDirectory) {
+        return inputDirectory.isDirectory();
+    }
+
+    /**
+     * Verify the output directory.
+     *
+     * @param outputDirectory The output directory to verify.
+     * @return true if verified, false otherwise.
+     */
+    private static boolean verifyOutputDirectory(File outputDirectory) {
+        boolean verified = true;
+        // Create a new output directory if one does not already exist.
         if (!outputDirectory.isDirectory()) {
             if(!outputDirectory.mkdir()) {
-                throw new RuntimeException("Unable to create output directory " + outputDirectory);
+                verified = false;
             }
         } else {
             // Clean up and reuse existing output directory.
@@ -42,17 +68,14 @@ public class App
                 try{
                     for(File f : outputDirectory.listFiles()) {
                         if (!f.delete()) {
-                            throw new RuntimeException("Unable to remove existing files from output directory" + outputDirectory);
+                            verified = false;
                         }
                     }
                 } catch (NullPointerException e) {
-                    throw new RuntimeException("Unable to remove existing files from output directory" + outputDirectory);
+                    verified = false;
                 }
             }
         }
-
-        // Hand off the rest of the work to the Widget object.
-        Widget widget = new Widget(inputDirectory, outputDirectory);
-
+        return verified;
     }
 }
