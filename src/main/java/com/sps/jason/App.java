@@ -1,5 +1,8 @@
 package com.sps.jason;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+
 import java.io.File;
 
 /**
@@ -17,6 +20,18 @@ public class App
      */
     public static void main( String[] args )
     {
+        final Logger logger = Logger.getLogger(App.class);
+        BasicConfigurator.configure();
+
+        //logs a debug message
+        if(logger.isDebugEnabled()){
+            logger.debug("This is a test debug message.");
+        }
+
+        //logs an error message with parameter
+        logger.error("This is a test error message.");
+
+
         // Blow up if the wrong number of command line arguments are received.
         if(args.length != 2) {
             throw new IllegalArgumentException(args.length + " is an invalid number of arguments. Must be 2.");
@@ -30,8 +45,10 @@ public class App
                     ".\nPlease make sure the input directory is the first argument, and is wrapped in double quotes.");
         }
 
-        if(!verifyOutputDirectory(outputDirectory)) {
-            throw new RuntimeException("Unable to create output directory " + outputDirectory);
+        String outputDirectoryCreationError = generateOutputDirectoryCreationError(outputDirectory);
+        if(!outputDirectoryCreationError.equals("")) {
+            throw new RuntimeException("Unable to create output directory " + outputDirectory + ". Error message: " +
+                    outputDirectoryCreationError);
         }
 
         // Hand off the rest of the work to the Widget object.
@@ -50,17 +67,17 @@ public class App
     }
 
     /**
-     * Verify the output directory.
+     * Generate an output directory creation error message.
      *
      * @param outputDirectory The output directory to verify.
-     * @return true if verified, false otherwise.
+     * @return The error string generated, or "" if no error generated.
      */
-    private static boolean verifyOutputDirectory(File outputDirectory) {
-        boolean verified = true;
+    private static String generateOutputDirectoryCreationError(File outputDirectory) {
+        String error = "";
         // Create a new output directory if one does not already exist.
         if (!outputDirectory.isDirectory()) {
             if(!outputDirectory.mkdir()) {
-                verified = false;
+                error = "Unable to make new output directory" + outputDirectory;
             }
         } else {
             // Clean up and reuse existing output directory.
@@ -68,14 +85,15 @@ public class App
                 try{
                     for(File f : outputDirectory.listFiles()) {
                         if (!f.delete()) {
-                            verified = false;
+                            error = "Unable to delete existing file(s) in directory" + outputDirectory;
                         }
                     }
                 } catch (NullPointerException e) {
-                    verified = false;
+                    error = "Encountered NullPointerException while attempting to delete existing files in directory" +
+                            outputDirectory;
                 }
             }
         }
-        return verified;
+        return error;
     }
 }
