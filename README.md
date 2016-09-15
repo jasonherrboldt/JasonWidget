@@ -1,5 +1,5 @@
 # JasonWidget
-Requested coding exercise. 
+Requested coding exercise (under construction).
 
 Excerpt from the submitted requirements: 
 
@@ -11,6 +11,12 @@ Excerpt from the submitted requirements:
     resulting modified text should be output to a configured output folder with an
     extension appended to the filename to indicate processed. Aside from any debug logging
     the tool should log at INFO level a line for each file successfully processed.
+
+## Assumptions / Decisions
+
+* I elected to have the input and output directories injected into the main method, as opposed to specifying them in a properties file.
+* I elected to hardcode the replacement keys and values, as opposed to specifying them in a properties file.
+* All scanned files will be of the type *.txt.
 
 ## Compile / Run Instructions
 
