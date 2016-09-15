@@ -10,7 +10,7 @@ import java.io.File;
  *
  * Created by Jason Herrboldt (intothefuture@gmail.com) on 9/15/16.
  */
-public class App
+public class Main
 {
     /**
      * Main engine method.
@@ -20,17 +20,10 @@ public class App
      */
     public static void main( String[] args )
     {
-        final Logger logger = Logger.getLogger(App.class);
+        final Logger logger = Logger.getLogger(Main.class);
         BasicConfigurator.configure();
 
-//        if(logger.isDebugEnabled()){
-//            logger.debug("This is a test debug message.");
-//        }
-//
-        // logger.error("This is a test error message.");
-
-
-        // Blow up if the wrong number of command line arguments are received.
+        // Assert the correct number of command line arguments was received.
         if(args.length != 2) {
             String errorMessage = args.length + " is an invalid number of arguments. Must be 2.";
             logger.error(errorMessage);
@@ -40,19 +33,19 @@ public class App
         File inputDirectory = new File(args[0]);
         File outputDirectory = new File(args[1]);
 
-        // Blow up if input directory doesn't exist.
-        if(!verifyInputDirectory(inputDirectory)) {
+        // Assert the input directory exists.
+        if(!inputDirectory.isDirectory()) {
             String errorMessage = "Unable to access directory " + inputDirectory +
                     ".\nPlease make sure the input directory is the first argument, and is wrapped in double quotes.";
             logger.error(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
 
-        // Blow up if any problems occur while creating a new output directory or cleaning up an old one.
-        String outputDirectoryCreationError = generateOutputDirectoryCreationError(outputDirectory);
-        if(!outputDirectoryCreationError.equals("")) {
+        // Create the output directory if it doesn't exist, or clean / reuse if it does.
+        String outputDirectoryCreationErrorMessage = generateOutputDirectoryCreationError(outputDirectory);
+        if(!outputDirectoryCreationErrorMessage.equals("")) {
             String errorMessage = "Unable to create output directory " + outputDirectory + ". Error message: " +
-                    outputDirectoryCreationError;
+                    outputDirectoryCreationErrorMessage;
             logger.error(errorMessage);
             throw new RuntimeException(errorMessage);
         }
@@ -64,20 +57,10 @@ public class App
     }
 
     /**
-     * Verify the input diretory.
-     *
-     * @param inputDirectory The input directory to verify.
-     * @return true if verified, false otherwise.
-     */
-    private static boolean verifyInputDirectory(File inputDirectory) {
-        return inputDirectory.isDirectory();
-    }
-
-    /**
-     * Generate an output directory creation error message.
+     * Create / reuse an output directory, and generate an output directory creation error message in the process.
      *
      * @param outputDirectory The output directory to verify.
-     * @return The error string generated, or "" if no error generated.
+     * @return The error string generated, or "" if no error is generated.
      */
     private static String generateOutputDirectoryCreationError(File outputDirectory) {
         String errorMessage = "";
@@ -89,7 +72,7 @@ public class App
         } else {
             // Clean up and reuse existing output directory.
             if(outputDirectory.list().length > 0) {
-                try{
+                try {
                     for(File f : outputDirectory.listFiles()) {
                         if (!f.delete()) {
                             errorMessage = "Unable to delete existing file(s) in directory" + outputDirectory;

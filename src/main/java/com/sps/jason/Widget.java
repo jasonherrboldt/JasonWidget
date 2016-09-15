@@ -14,8 +14,7 @@ public class Widget {
 
     private String inputDirectory;
     private String outputDirectory;
-    // private Logger logger = null;
-    final Logger logger = Logger.getLogger(Widget.class);
+    private final Logger logger = Logger.getLogger(Widget.class);
 
     /**
      * Public constructor.
@@ -26,17 +25,12 @@ public class Widget {
     public Widget(File inputDirectory, File outputDirectory) {
         logger.info("oh hai from the Widget constructor!");
         logger.info("input directory: " + inputDirectory + ", output directory: " + outputDirectory);
-        // final Logger logger = Logger.getLogger(Widget.class);
-        // Set up the logger.
-        // BasicConfigurator.configure();
     }
 
     /**
      * Open files in the input directory and read them into memory.
      */
     public void readFilesIntoMemory() {
-        // logger.info("test info message from readFilesIntoMemory");
-        // logger.error("This is a test error message from readFilesIntoMemory");
     }
 
     /**
