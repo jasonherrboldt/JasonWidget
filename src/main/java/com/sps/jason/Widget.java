@@ -4,6 +4,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import java.io.File;
+import java.util.*;
 
 /**
  * Implements the system requirements.
@@ -12,9 +13,10 @@ import java.io.File;
  */
 public class Widget {
 
-    private String inputDirectory;
-    private String outputDirectory;
+    private File inputDirectory;
+    private File outputDirectory;
     private final Logger logger = Logger.getLogger(Widget.class);
+    private List<File> filesInMemory;
 
     /**
      * Public constructor.
@@ -23,14 +25,25 @@ public class Widget {
      * @param outputDirectory The output directory to save modified files.
      */
     public Widget(File inputDirectory, File outputDirectory) {
-        logger.info("oh hai from the Widget constructor!");
-        logger.info("input directory: " + inputDirectory + ", output directory: " + outputDirectory);
+//        logger.info("oh hai from the Widget constructor!");
+//        logger.info("input directory: " + inputDirectory + ", output directory: " + outputDirectory);
+        this.inputDirectory = inputDirectory;
+        this.outputDirectory = outputDirectory;
+        // filesInMemory = new ArrayList<>();
     }
 
     /**
      * Open files in the input directory and read them into memory.
      */
     public void readFilesIntoMemory() {
+        File[] filesInDirectory = inputDirectory.listFiles();
+        if(filesInDirectory != null) {
+            filesInMemory = new ArrayList<>(Arrays.asList(filesInDirectory));
+        }
+        System.out.println("Files discovered:");
+        for(File f: filesInMemory) {
+            System.out.println(f.getName());
+        }
     }
 
     /**
