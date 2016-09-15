@@ -1,5 +1,5 @@
 # JasonWidget
-Requested coding exercise from a prospective employer. 
+Requested coding exercise. 
 
 Excerpt from the submitted requirements: 
 
