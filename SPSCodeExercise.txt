@@ -1,0 +1,43 @@
+SPS Hiring Code Exercise v1.0
+-----------------------------
+
+Activity:
+-------------
+This task is designed to give us a manageable view of your coding ability
+and style. The intent is to keep the scope simple and the time to complete short so
+take care to not over-design or go too far with features not specifically requested.
+
+Requirements:
+-------------
+The produced code should meet the following requirements:
+ * Written in Java
+ * Code should be reasonably covered by JUnit-based unit tests using Mockito for any
+   required Mocking.
+ * Code should be reasonably well documented (JavaDoc, minimal inline if something
+   is not self-documenting)
+ * Code should log via Log4J.
+ * Solution should be multi-threaded.
+ * Solution should employ generics in some way.
+ * Solution should employ some form of Collection in processing.
+
+The Project:
+-------------
+Design, code a deliver a simple widget that scans an input folder taking in each
+individual file as a job. Input folder can be specified on the command-line or in a
+properties file. For each file the code should read in the contents and
+replace all instances of certain text strings with alternative text strings. These
+replacement keys and values can be hard-coded or read in from properties. The
+resulting modified text should be output to a configured output folder with an
+extension appended to the filename to indicate processed. Aside from any debug logging
+the tool should log at INFO level a line for each file successfully processed.
+
+Delivery:
+-------------
+ * Code should be set up with a pom.xml to use MVN for build.
+ * Include a small README that instructs how the code should be executed.
+ * Finished code should be uploaded to a personal GitHub account and made available
+   to our staff. (Create a new free account if you do not already have one)
+ * Code should be delivered no later than 1 business day prior to in-person interview.
+
+Thanks and happy coding!
+ - SPS Commerce
