@@ -14,7 +14,8 @@ Excerpt from the submitted requirements:
 
 ## Assumptions / Decisions
 
-* I elected to have the input and output directories injected into the main method, as opposed to specifying them in a properties file.
+* I elected to inject the input and output directory names into the main method, as opposed to specifying them in a properties file.
+* The output directory will be created at runtime, or will reuse a directory of the same name if it already exists.
 * I elected to hardcode the replacement keys and values, as opposed to specifying them in a properties file.
 * All scanned files will be of the type *.txt.
 
