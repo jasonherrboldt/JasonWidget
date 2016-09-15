@@ -1,7 +1,7 @@
 # JasonWidget
 Requested coding exercise (under construction).
 
-Excerpt from the submitted requirements: 
+Excerpt from the submitted requirements (see SPSCodeExercise.txt for full specs):
 
     Design, code a deliver a simple widget that scans an input folder taking in each
     individual file as a job. Input folder can be specified on the command-line or in a
@@ -15,9 +15,10 @@ Excerpt from the submitted requirements:
 ## Assumptions / Decisions
 
 * I elected to inject the input and output directory names into the main method, as opposed to specifying them in a properties file.
-* The output directory will be created at runtime, or will reuse a directory of the same name if it already exists.
+* The injected input and output directory names will be wrapped in double quotes to handle directories with spaces in their names.
+* The output directory will be created at runtime, or will clean and reuse a directory if it already exists.
 * I elected to hardcode the replacement keys and values, as opposed to specifying them in a properties file.
-* All scanned files will be of the type *.txt.
+* The input directory will not contain any subdirectories.
 
 ## Compile / Run Instructions
 
