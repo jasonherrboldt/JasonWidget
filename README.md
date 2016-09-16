@@ -19,10 +19,10 @@ Excerpt from the submitted requirements (see CodeExercise.txt for full specs):
 
 ## Decisions
 
-* I elected to inject the input and output directory names into the main method, as opposed to specifying them in a properties file.
 * The program will create the output directory at runtime, or will clean and reuse a directory if it already exists.
+* I elected to inject the input and output directory names into the main method, as opposed to specifying them in a properties file.
 * I elected to hardcode the replacement keys and values, as opposed to specifying them in a properties file. (All occurrences of the string "monkey" are replaced with "banana".)
-* I elected to skip unit tests because the replaceAll() functionality in the Java String class has presumably already been sufficiently tested. The rest of the work done by this program -- opening files, creating new ones, saving them to a directory -- falls under the scope of functional testing rather than unit testing. In lieu of this, I employ the use of error logging and defensive coding. (For examples of exhaustive unit testing, please see my MusicOrganizer project under src/test/MusicOrganizerTest.java.)
+* I elected to skip unit tests because the core requirements are satisfied by the replaceAll() method in the Java String class. The rest of the work done by this program -- opening files, creating new ones, saving them to a directory -- falls under the scope of functional testing rather than unit testing. In lieu of this, I employed the use of error logging and defensive coding. (For examples of exhaustive unit testing, please see my MusicOrganizer project under src/test/MusicOrganizerTest.java.)
 
 ## Compile / Run Instructions
 
