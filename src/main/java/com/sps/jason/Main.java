@@ -41,6 +41,7 @@ public class Main
             throw new IllegalArgumentException(errorMessage);
         }
 
+        // Create the output directory.
         String outputDirectoryCreationErrorMessage = createOutputDirectory(outputDirectory);
         if(!outputDirectoryCreationErrorMessage.equals("")) {
             String errorMessage = "Unable to create output directory " + outputDirectory + ". Error message: " +
@@ -57,7 +58,7 @@ public class Main
     /**
      * Create or clean / reuse an output directory as needed.
      *
-     * @param outputDirectory The output directory to verify.
+     * @param outputDirectory The output directory to create or reuse.
      * @return The generated error string, or "" if no error is generated.
      */
     private static String createOutputDirectory(File outputDirectory) {

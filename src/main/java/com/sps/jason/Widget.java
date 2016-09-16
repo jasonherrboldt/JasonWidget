@@ -40,12 +40,14 @@ public class Widget {
     public void run() {
         ExecutorService service = Executors.newFixedThreadPool(4);
         try {
-            for(final File file : inputDirectory.listFiles()) {
-                service.submit(new Runnable() {
-                    public void run() {
-                        processFile(file);
-                    }
-                });
+            if(inputDirectory.listFiles() != null) {
+                for(final File file : inputDirectory.listFiles()) {
+                    service.submit(new Runnable() {
+                        public void run() {
+                            processFile(file);
+                        }
+                    });
+                }
             }
         } catch (NullPointerException e) {
             logger.error("Exception thrown while processing files: " + e);
@@ -69,4 +71,5 @@ public class Widget {
             logger.error("Encountered exception while replacing strings in a file. " + e);
         }
     }
+
 }
