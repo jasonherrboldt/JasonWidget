@@ -20,6 +20,7 @@ Excerpt from the submitted requirements (see CodeExercise.txt for full specs):
 ## Decisions
 
 * The code does not specifically forbid or allow any particular types of files to be scanned in the input directory -- this may result in some hidden system files getting picked up, which could unintentionally cause damange to your system. Please proceed with caution.
+* I wound up adding a leading forward slash in the Widget.processFile method (where the PrintWriter object is instantiated) because it did not seem to get picked up from the output directory filepath specified in the program arguments. This may cause some trouble in a Windows environment. 
 * The output directory will be created at runtime, or will clean and reuse a directory if it already exists.
 * I elected to inject the input and output directory names into the main method, as opposed to specifying them in a properties file.
 * I elected to hardcode the replacement keys and values, as opposed to specifying them in a properties file. (All occurrences of the string "monkey" are replaced with "banana".)
