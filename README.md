@@ -23,17 +23,17 @@ Excerpt from the submitted requirements (see CodeExercise.txt for full specs):
 * The output directory will be created at runtime, or will clean and reuse a directory if it already exists.
 * I elected to hardcode the replacement keys and values, as opposed to specifying them in a properties file. (All occurrences of the string "monkey" are replaced with "banana".)
 * I elected to inject the input and output directory names into the main method, as opposed to specifying them in a properties file.
-* I elected to skip unit tests because the replaceAll() functionality is already included in the Java String class, and has (presumably) already been tested to death. (There was no mention in the requirements document about not using common utility packages.) The rest of the work done by this program -- opening files, creating new ones, saving them to a directory -- falls under the scope of functional testing rather than unit testing.
-* I elected to not use any kind of Collection interface because of the straightforward nature of multithreading I went with. (This is in the spirit of "The intent is to keep the scope simple and the time to complete short" from the requirements document.
+* I elected to skip unit tests because the replaceAll() functionality is already included in the Java String class, and has presumably already been tested to death. (There was no mention in the requirements document about not using common utility packages.) The rest of the work done by this program -- opening files, creating new ones, saving them to a directory -- falls under the scope of functional testing rather than unit testing.
+* I elected to not use any kind of Collection interface because of the straightforward nature of multithreading I went with. (This is in the spirit of "keeping the scope simple and the time to complete short" from the requirements document.
 
 ## Compile / Run Instructions
 
 * $ git clone [CLONE_URL]
-* Open project in Intellij Idea
+* Import local maven project in Intellij Idea
 * Copy the files in the text_files directory and paste them into the desired local input directory.
 * Notice that the text files contain only the words "asdf" and "monkey".
-* Open the Maven Projects tab. Under Lifecycle, click Install.
-* Open Edit Configurations and paste the desired input and output directories (respectively) into Program Arguments field. Be sure to wrap them in double quotes.
+* Open the Maven Projects tab. Under Lifecycle, click Install. Maven should build successfully.
+* Open Edit Configurations and paste the desired input and output directory filepaths (respectively) into Program Arguments field. Be sure to wrap them in double quotes to avoid trouble with directories that may contain spaces in their names.
 * Open Main.java, right click, and select Run 'Main.main()'.
-* Notice the time-stamped log4j entries in the console.
+* Notice the time-stamped log4j entries in the console. Notice that the files are not processed in any particular order (multithreading).
 * Navigate to output directory and inspect generated files -- all instances of the string "monkey" have been replaced with "banana".

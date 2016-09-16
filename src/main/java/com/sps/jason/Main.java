@@ -36,7 +36,7 @@ public class Main
         // Make sure the input directory exists.
         if(!inputDirectory.isDirectory()) {
             String errorMessage = "Unable to access directory " + inputDirectory +
-                    ".\nPlease make sure the input directory is the first argument, and is wrapped in double quotes.";
+                    ".\nPlease make sure the input and output directories are wrapped in double quotes.";
             logger.error(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }

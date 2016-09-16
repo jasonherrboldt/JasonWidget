@@ -56,6 +56,7 @@ public class Widget {
 
     /**
      * Helper method to process files per the system requirements.
+     *
      * @param file The file to process.
      */
     private void processFile(File file) {
