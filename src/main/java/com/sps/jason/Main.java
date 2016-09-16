@@ -41,8 +41,7 @@ public class Main
             throw new IllegalArgumentException(errorMessage);
         }
 
-        // Create the output directory if it doesn't exist, or clean / reuse if it does.
-        String outputDirectoryCreationErrorMessage = generateOutputDirectoryCreationError(outputDirectory);
+        String outputDirectoryCreationErrorMessage = createOutputDirectory(outputDirectory);
         if(!outputDirectoryCreationErrorMessage.equals("")) {
             String errorMessage = "Unable to create output directory " + outputDirectory + ". Error message: " +
                     outputDirectoryCreationErrorMessage;
@@ -53,17 +52,15 @@ public class Main
         // Hand the rest of the work off to the Widget object.
         Widget widget = new Widget(inputDirectory, outputDirectory);
         widget.run();
-        // widget.readFilesIntoMemory();
-        // widget.processFilesInMemory();
     }
 
     /**
-     * Create / reuse an output directory, and generate an output directory creation error message in the process.
+     * Create or clean / reuse an output directory as needed.
      *
      * @param outputDirectory The output directory to verify.
-     * @return The error string generated, or "" if no error is generated.
+     * @return The generated error string, or "" if no error is generated.
      */
-    private static String generateOutputDirectoryCreationError(File outputDirectory) {
+    private static String createOutputDirectory(File outputDirectory) {
         String errorMessage = "";
         // Create a new output directory if one does not already exist.
         if (!outputDirectory.isDirectory()) {
@@ -81,7 +78,7 @@ public class Main
                     }
                 } catch (NullPointerException e) {
                     errorMessage = "Encountered NullPointerException while attempting to delete existing files in directory" +
-                            outputDirectory;
+                            outputDirectory + ". Exception: " + e;
                 }
             }
         }
