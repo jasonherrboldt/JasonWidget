@@ -1,5 +1,5 @@
-# JasonWidget
-Requested coding exercise (under construction).
+# JasonWidget (UNDER CONSTRUCTION)
+Requested coding exercise.
 
 Excerpt from the submitted requirements (see SPSCodeExercise.txt for full specs):
 

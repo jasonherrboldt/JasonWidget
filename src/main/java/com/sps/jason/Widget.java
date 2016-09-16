@@ -4,7 +4,14 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.regex.Matcher;
 
 /**
  * Implements the system requirements.
@@ -41,8 +48,16 @@ public class Widget {
             filesInMemory = new ArrayList<>(Arrays.asList(filesInDirectory));
         }
         System.out.println("Files discovered:");
-        for(File f: filesInMemory) {
-            System.out.println(f.getName());
+        // Charset charset= Charset.forName("US-ASCII");
+        Charset charset = StandardCharsets.UTF_8;
+        try {
+            for(File f: filesInMemory) {
+                System.out.println("File " + f.getName() + ": \n");
+                String content = new String(Files.readAllBytes(f.toPath()), charset);
+                System.out.println(content + "\n\n\n");
+            }
+        } catch (IOException e) {
+
         }
     }
 
@@ -54,8 +69,6 @@ public class Widget {
     public void modifyAndSaveFile(File fileToModifyAndSave) {
 
     }
-
-
 
 }
 
