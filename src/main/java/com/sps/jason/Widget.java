@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -54,10 +55,15 @@ public class Widget {
             for(File f: filesInMemory) {
                 System.out.println("File " + f.getName() + ": \n");
                 String content = new String(Files.readAllBytes(f.toPath()), charset);
-                System.out.println(content + "\n\n\n");
+                content = content.replaceAll("monkey", "banana");
+                // System.out.println(content + "\n\n\n");
+                PrintWriter writer = new PrintWriter(outputDirectory + "/(processed)_" + f.getName());
+                writer.print(content);
+                writer.close();
+                logger.info("File " + f.getName() + " was successfully processed.");
             }
         } catch (IOException e) {
-
+            logger.error("Encountered exception while replacing strings in a file. " + e);
         }
     }
 

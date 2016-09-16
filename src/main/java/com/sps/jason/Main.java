@@ -1,9 +1,8 @@
 package com.sps.jason;
 
+import java.io.File;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-
-import java.io.File;
 
 /**
  * Main engine class.
@@ -18,12 +17,13 @@ public class Main
      * @param args args[0]: the name of the input directory to scan,
      *             args[1]: the name of the output directory to save modified files.
      */
-    public static void main( String[] args )
+    public static void main(String[] args)
     {
+        // Set up the logger.
         final Logger logger = Logger.getLogger(Main.class);
         BasicConfigurator.configure();
 
-        // Assert the correct number of command line arguments was received.
+        // Make sure the correct number of command line arguments was received.
         if(args.length != 2) {
             String errorMessage = args.length + " is an invalid number of arguments. Must be 2.";
             logger.error(errorMessage);
@@ -33,7 +33,7 @@ public class Main
         File inputDirectory = new File(args[0]);
         File outputDirectory = new File(args[1]);
 
-        // Assert the input directory exists.
+        // Make sure the input directory exists.
         if(!inputDirectory.isDirectory()) {
             String errorMessage = "Unable to access directory " + inputDirectory +
                     ".\nPlease make sure the input directory is the first argument, and is wrapped in double quotes.";
@@ -50,7 +50,7 @@ public class Main
             throw new RuntimeException(errorMessage);
         }
 
-        // Hand off the rest of the work to the Widget object.
+        // Hand the rest of the work off to the Widget object.
         Widget widget = new Widget(inputDirectory, outputDirectory);
         widget.readFilesIntoMemory();
 
