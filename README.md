@@ -1,7 +1,7 @@
 # JasonWidget
 Requested coding exercise.
 
-Excerpt from the submitted requirements (see SPSCodeExercise.txt for full specs):
+Excerpt from the submitted requirements (see CodeExercise.txt for full specs):
 
     Design, code a deliver a simple widget that scans an input folder taking in each
     individual file as a job. Input folder can be specified on the command-line or in a
