@@ -52,8 +52,9 @@ public class Main
 
         // Hand the rest of the work off to the Widget object.
         Widget widget = new Widget(inputDirectory, outputDirectory);
-        widget.readFilesIntoMemory();
-
+        widget.run();
+        // widget.readFilesIntoMemory();
+        // widget.processFilesInMemory();
     }
 
     /**

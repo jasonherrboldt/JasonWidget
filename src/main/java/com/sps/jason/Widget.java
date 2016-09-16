@@ -1,6 +1,5 @@
 package com.sps.jason;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -9,10 +8,9 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Matcher;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Implements the system requirements.
@@ -25,6 +23,11 @@ public class Widget {
     private File outputDirectory;
     private final Logger logger = Logger.getLogger(Widget.class);
     private List<File> filesInMemory;
+    // The number of sections into which filesInMemory will be split for multithreading.
+    private static final int SECTIONS = 4;
+    private static final int NUMBER_OF_THREADS = 5;
+    private static final String STRING_FIND = "monkey";
+    private static final String STRING_REPLACE = "banana";
 
     /**
      * Public constructor.
@@ -47,16 +50,14 @@ public class Widget {
         File[] filesInDirectory = inputDirectory.listFiles();
         if(filesInDirectory != null) {
             filesInMemory = new ArrayList<>(Arrays.asList(filesInDirectory));
+            List<?> synchList = Collections.synchronizedList(filesInMemory);
         }
-        System.out.println("Files discovered:");
-        // Charset charset= Charset.forName("US-ASCII");
+        /*
         Charset charset = StandardCharsets.UTF_8;
         try {
             for(File f: filesInMemory) {
-                System.out.println("File " + f.getName() + ": \n");
                 String content = new String(Files.readAllBytes(f.toPath()), charset);
-                content = content.replaceAll("monkey", "banana");
-                // System.out.println(content + "\n\n\n");
+                content = content.replaceAll(STRING_FIND, STRING_REPLACE);
                 PrintWriter writer = new PrintWriter(outputDirectory + "/(processed)_" + f.getName());
                 writer.print(content);
                 writer.close();
@@ -65,6 +66,39 @@ public class Widget {
         } catch (IOException e) {
             logger.error("Encountered exception while replacing strings in a file. " + e);
         }
+        */
+    }
+
+    /**
+     * Process the files in memory using multithreading.
+     */
+    public void processFilesInMemory() {
+
+//        logger.info("There are " + filesInMemory.size() + " files in memory.");
+//
+//        // Number of files in memory can be evenly divided into the specified number of sections.
+//        if(filesInMemory.size() % SECTIONS == 0) {
+//            logger.info("Files in memory CAN be split evenly into four sections.");
+//            // List<Integer> head = numbers.subList(0, 4);
+//            for(int i = 0; i < filesInMemory.size(); i += 4) {
+//                logger.info("i : " + i);
+//            }
+//
+//
+//        } else {
+//            int remainder = filesInMemory.size() % SECTIONS;
+//            logger.info("Files in memory can NOT be split evenly into four sections.");
+//            for(int i = 0; i < filesInMemory.size(); i += filesInMemory.size() / SECTIONS) {
+//                logger.info("i : " + i);
+//                List<File> sublist = filesInMemory.subList(i, i + 4);
+//                logger.info("I am thread " + i + " and I am responsible for files:");
+//                for(File f : sublist) {
+//                    logger.info(f.getName());
+//                }
+//            }
+//        }
+
+
     }
 
     /**
@@ -72,8 +106,34 @@ public class Widget {
      *
      * @param fileToModifyAndSave The file to modify.
      */
-    public void modifyAndSaveFile(File fileToModifyAndSave) {
+    private void modifyAndSaveFile(File fileToModifyAndSave) {
 
+    }
+
+    public void run() {
+        ExecutorService service = Executors.newFixedThreadPool(10);
+        try {
+            for(final File file : inputDirectory.listFiles()){
+                service.submit(new Runnable(){
+                    public void run(){
+                        // logger.info("File name: " + file.getName());
+                        Charset charset = StandardCharsets.UTF_8;
+                        try {
+                            String content = new String(Files.readAllBytes(file.toPath()), charset);
+                            content = content.replaceAll(STRING_FIND, STRING_REPLACE);
+                            PrintWriter writer = new PrintWriter(outputDirectory + "/(processed)_" + file.getName());
+                            writer.print(content);
+                            writer.close();
+                            logger.info("File " + file.getName() + " was successfully processed.");
+                        } catch (IOException e) {
+                            logger.error("Encountered exception while replacing strings in a file. " + e);
+                        }
+                    }
+                });
+            }
+        } catch (NullPointerException e) {
+            logger.error("Exception thrown while processing files: " + e);
+        }
     }
 
 }
