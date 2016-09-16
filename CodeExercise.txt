@@ -1,4 +1,4 @@
-SPS Hiring Code Exercise v1.0
+Hiring Code Exercise
 -----------------------------
 
 Activity:
@@ -40,4 +40,3 @@ Delivery:
  * Code should be delivered no later than 1 business day prior to in-person interview.
 
 Thanks and happy coding!
- - SPS Commerce
