@@ -15,26 +15,23 @@ Excerpt from the submitted requirements (see CodeExercise.txt for full specs):
 ## Assumptions
 
 * The input directory will not contain any subdirectories.
-* The injected input and output directory names will be wrapped in double quotes to handle directories with spaces in their names.
+* The input and output directory names will be wrapped in double quotes to handle directories with spaces in their names.
 
 ## Decisions
 
 * I elected to inject the input and output directory names into the main method, as opposed to specifying them in a properties file.
-* The code does not specifically forbid or allow any particular types of files to be scanned in the input directory -- this may result in some hidden system files getting picked up, which could unintentionally cause damange to your system. Please proceed with caution.
-* I wound up adding a leading forward slash in the Widget.processFile method where the PrintWriter object is instantiated because it was not getting picked up from the output directory filepath specified in the program arguments. (`PrintWriter writer = new PrintWriter(outputDirectory + "/(processed)_" + file.getName());`) This may cause some trouble in a Windows environment. 
 * The program will create the output directory at runtime, or will clean and reuse a directory if it already exists.
 * I elected to hardcode the replacement keys and values, as opposed to specifying them in a properties file. (All occurrences of the string "monkey" are replaced with "banana".)
-* I elected to skip unit tests because the replaceAll() functionality is included in the Java String class, and has presumably already been tested to death. (There was no mention in the requirements document about not using common utility packages.) The rest of the work done by this program -- opening files, creating new ones, saving them to a directory -- falls under the scope of functional testing rather than unit testing. In lieu of this I did use error logging and very defensive coding wherever possible. (For an example of exhaustive unit testing that I've written, please see my MusicOrganizer project under GitHub/JasonHerrboldt/MusicOrganizer/src/test/MusicOrganizerTest.java.)
-* I elected to not use any kind of Collection interface because of the straightforward nature of multithreading I wound up going with. (This is in the spirit of "keeping the scope simple and the time to complete short" from the requirements document.) This also rules out the use of generics. I understand this decision might count against me, but my argument would be that the code is clean, simple, and works as intended. What's more, I'd argue that it's bad coding practice to use certain interfaces or coding practices just for the purpose of using them, when cleaner alternatives exist.
+* I elected to skip unit tests because the replaceAll() functionality in the Java String class has presumably already been sufficiently tested. The rest of the work done by this program -- opening files, creating new ones, saving them to a directory -- falls under the scope of functional testing rather than unit testing. In lieu of this, I employ the use of error logging and defensive coding. (For examples of exhaustive unit testing, please see my MusicOrganizer project under src/test/MusicOrganizerTest.java.)
 
 ## Compile / Run Instructions
 
 * $ git clone [CLONE_URL]
-* Import local maven project in Intellij Idea
+* Import local Maven project in your favorite IDE.
 * Copy the files in the text_files directory and paste them into the desired local input directory.
-* Notice that the text files contain only the words "asdf" and "monkey".
-* Open the Maven Projects tab. Under Lifecycle, click Install. Maven should build successfully.
-* Open Edit Configurations and paste the desired input and output directory filepaths (respectively) into Program Arguments field. Be sure to wrap them in double quotes to avoid trouble with directories that may contain spaces in their names.
+* Notice the text files contain only the words "asdf" and "monkey".
+* Run Maven Install. 
+* Open Edit Configurations and paste the desired input and output directory filepaths (respectively) into Program Arguments field. Be sure to wrap each in double quotes.
 * Open Main.java, right click, and select Run 'Main.main()'.
 * Notice the time-stamped log4j entries in the console. Notice that the files are not processed in any particular order (multithreading).
 * Navigate to output directory and inspect generated files -- all instances of the string "monkey" have been replaced with "banana".
