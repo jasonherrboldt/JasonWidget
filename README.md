@@ -12,14 +12,18 @@ Excerpt from the submitted requirements (see CodeExercise.txt for full specs):
     extension appended to the filename to indicate processed. Aside from any debug logging
     the tool should log at INFO level a line for each file successfully processed.
 
-## Assumptions / Decisions
+## Assumptions
 
-* I elected to inject the input and output directory names into the main method, as opposed to specifying them in a properties file.
+* The input directory will not contain any subdirectories.
 * The injected input and output directory names will be wrapped in double quotes to handle directories with spaces in their names.
+
+## Decisions
+
+* The code does not forbid or specifically allow any particular types of files to be scanned in the input directory -- this may result in some hidden system files getting picked up, which could unintentionally cause damange to your system. Please proceed with caution.
 * The output directory will be created at runtime, or will clean and reuse a directory if it already exists.
 * I elected to hardcode the replacement keys and values, as opposed to specifying them in a properties file. (All occurrences of the string "monkey" are replaced with "banana".)
-* The input directory will not contain any subdirectories.
-* I decided to skip unit tests because the replaceAll() functionality is already included in the Java String class, and has (presumably) already been tested to death. (There was no mention in the requirements document about not using common utility packages.) The rest of the work done by this program -- opening files, creating new ones, saving them to a directory -- falls under the scope of functional testing rather than unit testing.
+* I elected to inject the input and output directory names into the main method, as opposed to specifying them in a properties file.
+* I elected to skip unit tests because the replaceAll() functionality is already included in the Java String class, and has (presumably) already been tested to death. (There was no mention in the requirements document about not using common utility packages.) The rest of the work done by this program -- opening files, creating new ones, saving them to a directory -- falls under the scope of functional testing rather than unit testing.
 * I elected to not use any kind of Collection interface because of the straightforward nature of multithreading I went with. (This is in the spirit of "The intent is to keep the scope simple and the time to complete short" from the requirements document.
 
 ## Compile / Run Instructions
